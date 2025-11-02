@@ -1,47 +1,50 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Symbolon 카드 리딩 | 제작 : 월홍🌙</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Symbolon 카드 리딩 | 제작 : 월홍🌙</title>
+<style>
+  :root{
+    --bg:#ffffff; --text:#111827; --muted:#6b7280; --line:#e5e7eb;
+    --panel:#f8fafc; --btn:#111827; --btn-ghost:#ffffff; --shadow:0 6px 20px rgba(0,0,0,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif; background:var(--bg); color:var(--text)}
+  header{text-align:center; padding:28px 18px 12px}
+  header h1{margin:0; font-size:28px}
+  header p{margin:6px 0 0; color:var(--muted); font-size:14px}
+  .container{max-width:1024px; margin:0 auto; padding:16px}
+  .ask{background:var(--panel); border:1px solid var(--line); padding:16px; border-radius:16px; box-shadow:var(--shadow)}
+  .ask textarea{width:100%; min-height:72px; resize:vertical; background:#fff; color:var(--text); border:1px solid var(--line); border-radius:12px; padding:12px; outline:none}
+  .controls{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 2px}
+  .btn{appearance:none; border:1px solid var(--text); background:var(--btn); color:#fff; padding:10px 14px; border-radius:10px; font-weight:700; cursor:pointer; transition:.15s}
+  .btn:hover{filter:brightness(0.95)}
+  .btn.ghost{background:var(--btn-ghost); color:var(--text); border:1px solid var(--line)}
+  .board{display:grid; gap:14px; margin-top:18px; grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+  @media (min-width:480px){.board{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}}
+  @media (min-width:1024px){.board{grid-template-columns:repeat(3,1fr)}}
+  .card{background:#fff; border:1px solid var(--line); border-radius:14px; overflow:hidden; cursor:pointer; box-shadow:var(--shadow); display:flex; flex-direction:column}
+  /* ✅ 이미지 잘림 방지: 비율 고정 제거 + contain */
+  .card img{width:100%; height:auto; object-fit:contain; display:block; background:#fff}
+  .meta{padding:10px 12px}
+  .title{font-size:13px; font-weight:800}
+  .subtitle{font-size:11px; color:var(--muted); margin-top:2px}
+  .footer{text-align:center; color:var(--muted); font-size:13px; margin:26px 0 36px}
 
-  <style>
-    :root{--bg:#0b0f14;--panel:#121821;--muted:#98a2b3;--accent:#7c97ff;--ring:#cbd5ff;}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;background:linear-gradient(180deg,#0a0e13,#0e1420 40%,#0b0f14);color:#e5e7eb}
-    header{text-align:center;padding:28px 18px 12px}
-    header h1{margin:0;font-size:28px}
-    header p{margin:6px 0 0;color:var(--muted);font-size:14px}
-    .container{max-width:1024px;margin:0 auto;padding:16px}
-    .ask{background:var(--panel);border:1px solid #1f2937;padding:16px;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,.35)}
-    .ask textarea{width:100%;min-height:72px;resize:vertical;background:#0c1118;color:#e5e7eb;border:1px solid #243043;border-radius:12px;padding:12px;outline:none}
-    .controls{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 2px}
-    .btn{appearance:none;border:1px solid #2a3550;background:#161d2a;color:#e8edff;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer;transition:.2s}
-    .btn:hover{transform:translateY(-1px);background:#1c2536;border-color:#36456b}
-    .board{display:grid;gap:14px;margin-top:18px;grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
-    @media (min-width:480px){.board{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
-    @media (min-width:1024px){.board{grid-template-columns:repeat(3,1fr)}}
-    .card{position:relative;background:#0d1320;border:1px solid #1f2937;border-radius:14px;overflow:hidden;cursor:pointer}
-    .card img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:#0a0f18}
-    .meta{position:absolute;inset:auto 8px 8px 8px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.75));padding:10px;border-radius:12px}
-    .title{font-size:12px;font-weight:700}
-    .subtitle{font-size:11px;opacity:.8}
-    .footer{text-align:center;color:#a0a9b8;font-size:13px;margin:26px 0 36px}
-
-    /* 팝업 */
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-    .modal.open{display:flex}
-    .overlay{position:absolute;inset:0;background:rgba(2,6,23,.65)}
-    .dialog{position:relative;width:min(980px,94%);background:#0f1624;border:1px solid #1f2a44;border-radius:18px;box-shadow:0 30px 60px rgba(0,0,0,.6);overflow:hidden}
-    .dialog-body{display:grid;grid-template-columns:280px 1fr}
-    @media (max-width:840px){.dialog-body{grid-template-columns:1fr}}
-    .dialog img{width:100%;aspect-ratio:3/4;object-fit:cover}
-    .content{padding:18px}
-    .pill{display:inline-block;padding:6px 10px;border:1px solid #2b3552;border-radius:999px;margin:4px 6px 0 0;font-size:12px;background:#121a2c}
-    .inner{margin-top:10px;background:#0b111d;border:1px solid #1f2941;padding:10px;border-radius:12px;font-size:13px}
-    .close{position:absolute;top:10px;right:10px;border:none;background:#111827;color:#e5e7eb;border:1px solid #243043;width:36px;height:36px;border-radius:10px;cursor:pointer}
-    .close:hover{background:#1b2435}
-  </style>
+  /* 팝업(라이트 톤) */
+  .modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center}
+  .modal.open{display:flex}
+  .overlay{position:absolute; inset:0; background:rgba(17,24,39,.35)}
+  .dialog{position:relative; width:min(980px,94%); background:#fff; border:1px solid var(--line); border-radius:18px; box-shadow:0 30px 80px rgba(0,0,0,.15); overflow:hidden}
+  .dialog-body{display:grid; grid-template-columns:320px 1fr}
+  @media (max-width:840px){.dialog-body{grid-template-columns:1fr}}
+  .dialog img{width:100%; height:auto; object-fit:contain; background:#fff}
+  .content{padding:18px}
+  .pill{display:inline-block; padding:6px 10px; border:1px solid var(--line); border-radius:999px; margin:4px 6px 0 0; font-size:12px; background:#fff; color:#334155}
+  .inner{margin-top:10px; background:#fff; border:1px solid var(--line); padding:10px; border-radius:12px; font-size:13px; color:#111827}
+  .close{position:absolute; top:10px; right:10px; border:1px solid var(--line); background:#fff; color:var(--text); width:36px; height:36px; border-radius:10px; cursor:pointer}
+</style>
 </head>
 <body>
 <header>
@@ -55,7 +58,7 @@
     <div class="controls">
       <button class="btn" id="draw1">1카드 뽑기</button>
       <button class="btn" id="draw3">3카드 뽑기</button>
-      <button class="btn" id="reset">초기화</button>
+      <button class="btn ghost" id="reset">초기화</button>
     </div>
   </section>
 
@@ -67,14 +70,14 @@
 <div class="modal" id="modal">
   <div class="overlay" id="overlay"></div>
   <div class="dialog">
-    <button class="close" id="close">✕</button>
+    <button class="close" id="close" aria-label="닫기">✕</button>
     <div class="dialog-body">
-      <img id="mImg">
+      <img id="mImg" alt="선택 카드 이미지">
       <div class="content">
-        <h3 id="mTitle"></h3>
-        <div class="k" style="margin-top:4px">키워드</div>
+        <h3 id="mTitle" style="margin:0 0 6px 0"></h3>
+        <div class="k" style="margin-top:4px; color:#334155; font-size:12px">키워드</div>
         <div id="mKeywords"></div>
-        <div class="k" style="margin-top:12px">속마음</div>
+        <div class="k" style="margin-top:12px; color:#334155; font-size:12px">속마음</div>
         <div class="inner" id="mInner"></div>
       </div>
     </div>
@@ -82,7 +85,7 @@
 </div>
 
 <script>
-/* ✅ GitHub에 올라간 실제 파일명 매핑 */
+/* ✅ GitHub에 올라간 실제 파일명 매핑 (B 방식) */
 const FILES = {
   1:"01.The Warrior.JPG", 2:"02.The Lover.JPG", 3:"03.The Mediator.JPG", 4:"04.The Mother.JPG",
   5:"05.The Ego.JPG", 6:"06.The Servitor.JPG", 7:"07.The Partner.JPG", 8:"08.The Seducer.JPG",
@@ -106,7 +109,7 @@ const FILES = {
   77:"77.Moria.JPG", 78:"78.The Question of the Grail.JPG"
 };
 
-/* ✅ 카드 데이터 (키워드 + 속마음) — 이미 PDF 기반으로 정식 입력된 버전 */
+/* ✅ 카드 데이터: (요약본 유지) */
 const CARDS = [
   {"id":1,"title":"전사","keywords":["공격성","성취","정복","선동자","출발"],"inner":"적극성/공격성"},
   {"id":2,"title":"연인","keywords":["가치","매력","소유욕","사교성","매력"],"inner":"사랑받고 싶은 마음"},
@@ -120,7 +123,6 @@ const CARDS = [
   {"id":10,"title":"장인","keywords":["책임","운명","노인","관리자"],"inner":"융통성 부족"},
   {"id":11,"title":"광대","keywords":["자유","아웃사이더"],"inner":"자유 추구"},
   {"id":12,"title":"천사","keywords":["진실","직감","환상"],"inner":"단념·포기"},
-
   {"id":13,"title":"반항","keywords":["분노","도망","어머니에 대한 미움"],"inner":"섭섭함/화남"},
   {"id":14,"title":"이브의 두 얼굴","keywords":["역할갈등","복잡한 감정"],"inner":"선택장애"},
   {"id":15,"title":"의사표현","keywords":["감정토론","접촉"],"inner":"감정을 말 못함"},
@@ -129,9 +131,7 @@ const CARDS = [
   {"id":18,"title":"가족","keywords":["우리","결합"],"inner":"책임감"},
   {"id":19,"title":"낙태","keywords":["희생된 여성성","우울"],"inner":"내려놓음"},
   {"id":20,"title":"므네모시네","keywords":["기억","영혼 통찰"],"inner":"과거 회피"},
-
   {"id":21,"title":"얼음여왕","keywords":["냉정","죄책감","우울"],"inner":"벽치고 외로움"},
-
   {"id":22,"title":"해방","keywords":["비정한 자유","추방","새 시작"],"inner":"변화를 원하는 마음"},
   {"id":23,"title":"잠자는 미녀","keywords":["기다림","무의식"],"inner":"행동하지 않음"},
   {"id":24,"title":"전투","keywords":["힘겨루기","섀도우 복싱"],"inner":"기싸움"},
@@ -143,7 +143,6 @@ const CARDS = [
   {"id":30,"title":"행운","keywords":["긍정","신뢰"],"inner":"긍정적인 생각"},
   {"id":31,"title":"짐","keywords":["책임","윤리","부담"],"inner":"무거움"},
   {"id":32,"title":"몰락","keywords":["추락","힘 상실"],"inner":"자존심 상함"},
-
   {"id":33,"title":"후퇴","keywords":["존재 위기","도피"],"inner":"회피"},
   {"id":34,"title":"사랑","keywords":["성적 매력","육체적 접촉"],"inner":"애정·육체성"},
   {"id":35,"title":"형틀","keywords":["가십","명예훼손"],"inner":"험담, 비난"},
@@ -173,7 +172,6 @@ const CARDS = [
   {"id":59,"title":"자책","keywords":["강박","이상추구"],"inner":"후회/자책"},
   {"id":60,"title":"종교재판","keywords":["비난","죄인 찾기"],"inner":"누가 옳은가 싸움"},
   {"id":61,"title":"공포·두려움","keywords":["운명 지배","바꿀 수 없음"],"inner":"놀람·도피"},
-
   {"id":62,"title":"복수의 여신","keywords":["어둠","운명","두려움"],"inner":"강한 분노"},
   {"id":63,"title":"속임수","keywords":["거짓","사기","반칙"],"inner":"속임/기만"},
   {"id":64,"title":"재앙","keywords":["지옥","노예화","중독"],"inner":"집착·중독"},
@@ -203,7 +201,7 @@ function pick(n){
   return out;
 }
 
-/* 카드 렌더링 */
+/* 렌더링 */
 const board=document.getElementById('board');
 function render(cards){
   board.innerHTML='';
@@ -233,20 +231,19 @@ const mInner=document.getElementById('mInner');
 function openModal(card){
   mImg.src=`./${FILES[card.id]}`;
   mTitle.textContent=`${card.title} (#${card.id})`;
-  mKeywords.innerHTML=card.keywords.map(k=>`<span class="pill">${k}</span>`).join('');
-  mInner.textContent=card.inner;
+  mKeywords.innerHTML=(card.keywords||[]).map(k=>`<span class="pill">${k}</span>`).join('');
+  mInner.textContent=card.inner||'';
   modal.classList.add('open');
 }
-function closeModal(){modal.classList.remove('open');}
-
+function closeModal(){ modal.classList.remove('open'); }
 overlay.addEventListener('click',closeModal);
 closeBtn.addEventListener('click',closeModal);
-window.addEventListener('keydown',e=>{if(e.key==="Escape")closeModal();});
+window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
 
 /* 버튼 */
 document.getElementById('draw1').onclick=()=>render(pick(1));
 document.getElementById('draw3').onclick=()=>render(pick(3));
-document.getElementById('reset').onclick=()=>{board.innerHTML='';};
+document.getElementById('reset').onclick=()=>{ board.innerHTML=''; };
 
 /* 초기 */
 render([]);
