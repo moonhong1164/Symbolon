@@ -3,168 +3,197 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>심볼론 카드 리딩 | 제작 : 월홍🌙</title>
+  <title>Symbolon 카드 리딩 | 제작 : 월홍🌙</title>
+
   <style>
-    :root{--bg:#0b0f14; --panel:#121821; --muted:#98a2b3; --accent:#7c97ff; --ring:#cbd5ff;}
+    :root{--bg:#0b0f14;--panel:#121821;--muted:#98a2b3;--accent:#7c97ff;--ring:#cbd5ff;}
     *{box-sizing:border-box}
-    body{margin:0; font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Apple SD Gothic Neo","Noto Sans KR",sans-serif; background:linear-gradient(180deg,#0a0e13,#0e1420 40%,#0b0f14); color:#e5e7eb}
-    header{padding:28px 18px 12px; text-align:center}
-    header h1{margin:0; font-size:28px}
-    header p{margin:6px 0 0; color:var(--muted); font-size:14px}
-    .container{max-width:1024px; margin:0 auto; padding:16px}
-    .ask{background:var(--panel); border:1px solid #1f2937; padding:16px; border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,.35)}
-    .ask textarea{width:100%; min-height:72px; resize:vertical; background:#0c1118; color:#e5e7eb; border:1px solid #243043; border-radius:12px; padding:12px; outline:none}
-    .controls{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 2px}
-    .btn{appearance:none; border:1px solid #2a3550; background:#161d2a; color:#e8edff; padding:10px 14px; border-radius:12px; font-weight:600; cursor:pointer; transition:.2s}
-    .btn:hover{transform:translateY(-1px); background:#1c2536; border-color:#36456b}
-    .board{display:grid; gap:14px; margin-top:18px; grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;background:linear-gradient(180deg,#0a0e13,#0e1420 40%,#0b0f14);color:#e5e7eb}
+    header{text-align:center;padding:28px 18px 12px}
+    header h1{margin:0;font-size:28px}
+    header p{margin:6px 0 0;color:var(--muted);font-size:14px}
+    .container{max-width:1024px;margin:0 auto;padding:16px}
+    .ask{background:var(--panel);border:1px solid #1f2937;padding:16px;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+    .ask textarea{width:100%;min-height:72px;resize:vertical;background:#0c1118;color:#e5e7eb;border:1px solid #243043;border-radius:12px;padding:12px;outline:none}
+    .controls{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 2px}
+    .btn{appearance:none;border:1px solid #2a3550;background:#161d2a;color:#e8edff;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer;transition:.2s}
+    .btn:hover{transform:translateY(-1px);background:#1c2536;border-color:#36456b}
+    .board{display:grid;gap:14px;margin-top:18px;grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
     @media (min-width:480px){.board{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}}
     @media (min-width:1024px){.board{grid-template-columns:repeat(3,1fr)}}
-    .card{position:relative; background:#0d1320; border:1px solid #1f2937; border-radius:14px; overflow:hidden; cursor:pointer}
-    .card img{width:100%; aspect-ratio:3/4; object-fit:cover; display:block; background:#0a0f18}
-    .meta{position:absolute; inset:auto 8px 8px 8px; background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.75)); padding:10px; border-radius:12px}
-    .title{font-size:12px; font-weight:700}
-    .subtitle{font-size:11px; opacity:.8}
-    .footer{margin:26px 0 36px; text-align:center; color:#a0a9b8; font-size:13px}
-    .modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; backdrop-filter:blur(4px)}
+    .card{position:relative;background:#0d1320;border:1px solid #1f2937;border-radius:14px;overflow:hidden;cursor:pointer}
+    .card img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:#0a0f18}
+    .meta{position:absolute;inset:auto 8px 8px 8px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.75));padding:10px;border-radius:12px}
+    .title{font-size:12px;font-weight:700}
+    .subtitle{font-size:11px;opacity:.8}
+    .footer{text-align:center;color:#a0a9b8;font-size:13px;margin:26px 0 36px}
+
+    /* 팝업 */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
     .modal.open{display:flex}
-    .overlay{position:absolute; inset:0; background:rgba(2,6,23,.65)}
-    .dialog{position:relative; width:min(980px,94%); background:#0f1624; border:1px solid #1f2a44; border-radius:18px; box-shadow:0 30px 60px rgba(0,0,0,.6); overflow:hidden}
-    .dialog-body{display:grid; grid-template-columns:280px 1fr}
+    .overlay{position:absolute;inset:0;background:rgba(2,6,23,.65)}
+    .dialog{position:relative;width:min(980px,94%);background:#0f1624;border:1px solid #1f2a44;border-radius:18px;box-shadow:0 30px 60px rgba(0,0,0,.6);overflow:hidden}
+    .dialog-body{display:grid;grid-template-columns:280px 1fr}
     @media (max-width:840px){.dialog-body{grid-template-columns:1fr}}
-    .dialog img{width:100%; aspect-ratio:3/4; object-fit:cover}
+    .dialog img{width:100%;aspect-ratio:3/4;object-fit:cover}
     .content{padding:18px}
-    .pill{display:inline-block; padding:6px 10px; border:1px solid #2b3552; border-radius:999px; margin:4px 6px 0 0; font-size:12px; background:#121a2c}
-    .inner{margin-top:10px; background:#0b111d; border:1px solid #1f2941; padding:10px; border-radius:12px; font-size:13px}
-    .close{position:absolute; top:10px; right:10px; border:none; background:#111827; color:#e5e7eb; border:1px solid #243043; width:36px; height:36px; border-radius:10px; cursor:pointer}
+    .pill{display:inline-block;padding:6px 10px;border:1px solid #2b3552;border-radius:999px;margin:4px 6px 0 0;font-size:12px;background:#121a2c}
+    .inner{margin-top:10px;background:#0b111d;border:1px solid #1f2941;padding:10px;border-radius:12px;font-size:13px}
+    .close{position:absolute;top:10px;right:10px;border:none;background:#111827;color:#e5e7eb;border:1px solid #243043;width:36px;height:36px;border-radius:10px;cursor:pointer}
     .close:hover{background:#1b2435}
   </style>
 </head>
 <body>
-  <header>
-    <h1>심볼론 카드 리딩</h1>
-    <p>키워드 + 속마음 중심 간단 해석 (카드를 눌러 팝업으로 확인)</p>
-  </header>
+<header>
+  <h1>Symbolon 카드 리딩</h1>
+  <p>키워드 + 속마음 중심 간단 해석</p>
+</header>
 
-  <main class="container">
-    <section class="ask">
-      <textarea id="q" placeholder="질문을 적어 주세요 (선택)"></textarea>
-      <div class="controls">
-        <button class="btn" id="draw1">1카드 뽑기</button>
-        <button class="btn" id="draw3">3카드 뽑기</button>
-        <button class="btn" id="reset">초기화</button>
-      </div>
-    </section>
+<main class="container">
+  <section class="ask">
+    <textarea id="q" placeholder="질문을 적어보세요 (선택사항)"></textarea>
+    <div class="controls">
+      <button class="btn" id="draw1">1카드 뽑기</button>
+      <button class="btn" id="draw3">3카드 뽑기</button>
+      <button class="btn" id="reset">초기화</button>
+    </div>
+  </section>
 
-    <section class="board" id="board"></section>
-    <div class="footer">제작 : <strong>월홍🌙</strong></div>
-  </main>
+  <section class="board" id="board"></section>
+  <div class="footer">제작 : <strong>월홍🌙</strong></div>
+</main>
 
-  <!-- Modal -->
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
-    <div class="overlay" id="overlay"></div>
-    <div class="dialog">
-      <button class="close" id="close" aria-label="닫기">✕</button>
-      <div class="dialog-body">
-        <img id="mImg" alt="선택 카드 이미지" />
-        <div class="content">
-          <h3 id="mTitle"></h3>
-          <div class="k" style="margin-top:4px">키워드</div>
-          <div id="mKeywords"></div>
-          <div class="k" style="margin-top:12px">속마음</div>
-          <div class="inner" id="mInner"></div>
-        </div>
+<!-- 팝업 -->
+<div class="modal" id="modal">
+  <div class="overlay" id="overlay"></div>
+  <div class="dialog">
+    <button class="close" id="close">✕</button>
+    <div class="dialog-body">
+      <img id="mImg">
+      <div class="content">
+        <h3 id="mTitle"></h3>
+        <div class="k" style="margin-top:4px">키워드</div>
+        <div id="mKeywords"></div>
+        <div class="k" style="margin-top:12px">속마음</div>
+        <div class="inner" id="mInner"></div>
       </div>
     </div>
   </div>
+</div>
 
 <script>
-/* ======================
-   1) 데이터: 1~78 전체
-   2) 이미지 경로: /img/symbolon/{id}.jpg
-   ====================== */
+/* ✅ GitHub에 올라간 실제 파일명 매핑 */
+const FILES = {
+  1:"01.The Warrior.JPG", 2:"02.The Lover.JPG", 3:"03.The Mediator.JPG", 4:"04.The Mother.JPG",
+  5:"05.The Ego.JPG", 6:"06.The Servitor.JPG", 7:"07.The Partner.JPG", 8:"08.The Seducer.JPG",
+  9:"09.The Preacher.JPG", 10:"10.The Master.JPG", 11:"11.The Jester.JPG", 12:"12.The Angel.JPG",
+  13:"13.Defiance.JPG", 14:"14.The Two Faces Of Eve.JPG", 15:"15.Articulation.JPG", 16:"16.Incompatibilty.JPG",
+  17:"17.Caring.JPG", 18:"18.The Family.JPG", 19:"19.Abortion.JPG", 20:"20.Mnemosyne.JPG",
+  21:"21.The Ice Queen.JPG", 22:"22.Deliverance.JPG", 23:"23.Sleeping Beauty-Slumber.JPG", 24:"24.The Battle.JPG",
+  25:"25.Queen.JPG", 26:"26.The Actor.JPG", 27:"27.The Ailing King.JPG", 28:"28.The Wedding.JPG",
+  29:"29.The Magician.JPG", 30:"30.Fortuna.JPG", 31:"31.The Burden.JPG", 32:"32.The Fall.JPG",
+  33:"33.Retreat.JPG", 34:"34.Eros.JPG", 35:"35.The Stocks.JPG", 36:"36.Guilt.JPG",
+  37:"37.Disagreement.JPG", 38:"38.The Vampire.JPG", 39:"39.The Crusader.JPG", 40:"40.Prevention.JPG",
+  41:"41.The Spiteful Troublemaker.JPG", 42:"42.The Absolute Fool.JPG", 43:"43.The Golden Girl.JPG", 44:"44.Clinging.JPG",
+  45:"45.The Gilded Cage.JPG", 46:"46.The Marionette.JPG", 47:"47.Matter and Spirit.JPG", 48:"48.Responsibility For Creation.JPG",
+  49:"49.The Farewell.JPG", 50:"50.The Garden of Spirits.JPG", 51:"51.The staregist.JPG", 52:"52.Vanity Fair.JPG",
+  53:"53.The Pied Piper.JPG", 54:"54.Master and Disciple.JPG", 55:"55.Affliction.JPG", 56:"56.Dreaming Johnny.JPG",
+  57:"57.Silence.JPG", 58:"58.Everyday life in the Relationship.JPG", 59:"59.Castigation.JPG", 60:"60.The Inquisition.JPG",
+  61:"61.Fear.JPG", 62:"62.Furies.JPG", 63:"63.Deception.JPG", 64:"64.Disaster.JPG",
+  65:"65.The Symbolon.JPG", 66:"66.Sadness.JPG", 67:"67.Separation.JPG", 68:"68.The King's Two Children.JPG",
+  69:"69.The Black Mass.JPG", 70:"70.Depression.JPG", 71:"71.The Phoenix.JPG", 72:"72.The False Halo.JPG",
+  73:"73.Confession.JPG", 74:"74.The Quantum Leap.JPG", 75:"75.Pythia.JPG", 76:"76.Captivity.JPG",
+  77:"77.Moria.JPG", 78:"78.The Question of the Grail.JPG"
+};
+
+/* ✅ 카드 데이터 (키워드 + 속마음) — 이미 PDF 기반으로 정식 입력된 버전 */
 const CARDS = [
-  {"id":1,"title":"전사","keywords":["공격성","성취할 수 있는 힘","정복","선동자","새로운 출발의 에너지"],"inner":"적극성 or 공격성"},
-  {"id":2,"title":"연인","keywords":["가치","매력","소유욕","사교성","육체적 매력"],"inner":"사랑받기 바람, 스스로에 대한 자신감"},
-  {"id":3,"title":"중재자","keywords":["(신들의) 메신저","지적 능력","접촉","구경꾼","쉬움(ease)"],"inner":"중립적인 연락"},
-  {"id":4,"title":"어머니","keywords":["여성적","가족","아기","감정","헌신","수용","영적인 과거"],"inner":"수용, 돌봄, 감정기복"},
-  {"id":5,"title":"자아","keywords":["힘","욕망","독특함","영광","풍요로움","창조성","성생활"],"inner":"자존심·권위적·고집"},
-  {"id":6,"title":"봉사자","keywords":["이유","현실 수용","합리성","진지함","정신적 균형"],"inner":"빌어주는 마음, 행동력 없음"},
-  {"id":7,"title":"파트너","keywords":["상대방","관계","균형","거울","보충","나은 반쪽"],"inner":"균형과 조화(상호성)"},
-  {"id":8,"title":"유혹자","keywords":["악마","상상","집착","열광","지하세계"],"inner":"강한 욕망·집착"},
-  {"id":9,"title":"설교자","keywords":["성직자","내면의 치료사","믿음","통찰력","철학적 세계관"],"inner":"강한 신념"},
-  {"id":10,"title":"장인","keywords":["합법성","책임","운명","노인","죽음","자비없는 관리자"],"inner":"자기세계 고집, 융통성 부족"},
-  {"id":11,"title":"광대","keywords":["전달자","자유","아웃사이더","진정한 영웅","스테픈울프"],"inner":"자유 추구"},
-  {"id":12,"title":"천사","keywords":["진실","신성한 반짝임","지혜","직감","꿈","환상"],"inner":"단념·내려놓음"},
-  {"id":13,"title":"반항","keywords":["파괴적인 아이","분노","화","도망가는 아이","어머니에 대한 미움","여성성 거부"],"inner":"섭섭함·화남"},
-  {"id":14,"title":"이브의 두 얼굴","keywords":["역할갈등","복잡한 감정","한몸에 두 영혼","부인과 애인"],"inner":"갈등, 선택장애"},
-  {"id":15,"title":"의사표현","keywords":["감정토론","심리치료(정신분석)","감정의 접촉","마음과 배의 연결"],"inner":"감정을 억눔/말 못함"},
-  {"id":16,"title":"양립불가","keywords":["낙원에서의 추방","둘","결혼","낮과 밤","음과 양"],"inner":"의견 대립, 관점 차이"},
-  {"id":17,"title":"보살핌","keywords":["동정","누군가를 보살핌","문제아이","슬픔·고민","보살핌 증후군"],"inner":"보살핌·과잉보호"},
-  {"id":18,"title":"가족","keywords":["제3의 힘","영적인 접촉","우리","관계 고백","결합","응집력"],"inner":"책임감(관계)"},
-  {"id":19,"title":"낙태","keywords":["영혼을 팜","희생된 여성성","감정에 대한 상상","정신적 의존","우울","어머니 의미"],"inner":"버림, 내려놓음"},
-  {"id":20,"title":"므네모시네","keywords":["기억","치료","영혼의 통찰","개인적 진실","뮤즈"],"inner":"과거와 연결·현실회피"},
-  {"id":21,"title":"얼음여왕","keywords":["동정","냉정한 여성","외로운 아이","엄격한 어머니","죄책감","우울증"],"inner":"벽 치고 내면의 외로움/슬픔"},
-  {"id":22,"title":"해방","keywords":["비정한 자유","추방","다시 태어남","새로운 시작","전환점"],"inner":"완전히 다른 변화를 원함"},
-  {"id":23,"title":"잠자는 미녀","keywords":["무의식 상태","기다림"],"inner":"행동하지 않음/수동"},
-  {"id":24,"title":"전투","keywords":["자살행위","자신의 목표","섀도우 복싱"],"inner":"힘겨루기·기싸움"},
-  {"id":25,"title":"여왕","keywords":["감성/에로틱 매력의 사용"],"inner":"강한 매력·자존심"},
-  {"id":26,"title":"배우","keywords":["역할","자기묘사","거짓된 정체성","무대 뒤편","지성"],"inner":"연기/가면"},
-  {"id":27,"title":"병든 왕","keywords":["환자","흥미없음","지침","병으로 도피","인내"],"inner":"우울·의욕저하"},
-  {"id":28,"title":"결혼","keywords":["사랑","커플","절정","희열","사랑의 행운","관계 의존"],"inner":"사랑/관계"},
-  {"id":29,"title":"마법사","keywords":["창조 노력","유전공학","흑/백마법","긍정적 사고","완벽주의"],"inner":"과몰입·집중"},
-  {"id":30,"title":"행운","keywords":["행운","영적 깊이","관용","긍정주의","내면의 치료사","신뢰"],"inner":"긍정적 생각"},
-  {"id":31,"title":"짐","keywords":["고생스러운 일","의식","지속되는 운명","윤리","죄책감","책임"],"inner":"무거운 책임·부담"},
-  {"id":32,"title":"몰락","keywords":["궁중 반란","전복","변화","자아의 추락","힘의 상실"],"inner":"자존심 상함/추락"},
-  {"id":33,"title":"후퇴","keywords":["이목 끌지 못함","존재 위기"],"inner":"회피·현실도피"},
-  {"id":34,"title":"사랑","keywords":["성적 매력","섹스","추파","육체적 접촉"],"inner":"사랑/육체적 친밀"},
-  {"id":35,"title":"형틀","keywords":["가십","명예훼손","신음","투덜","인신공격"],"inner":"험담/비난(받거나 함)"},
-  {"id":36,"title":"죄책감","keywords":["가해자-피해자","죄책/결백"],"inner":"의도치 않은 행동→죄책"},
-  {"id":37,"title":"불일치","keywords":["남녀의 싸움","충돌","상징 깨짐"],"inner":"충돌·선 긋기"},
+  {"id":1,"title":"전사","keywords":["공격성","성취","정복","선동자","출발"],"inner":"적극성/공격성"},
+  {"id":2,"title":"연인","keywords":["가치","매력","소유욕","사교성","매력"],"inner":"사랑받고 싶은 마음"},
+  {"id":3,"title":"중재자","keywords":["메신저","지적 능력","접촉","쉬움"],"inner":"중립적인 연락"},
+  {"id":4,"title":"어머니","keywords":["감정","가족","헌신","수용"],"inner":"보살핌·수용"},
+  {"id":5,"title":"자아","keywords":["힘","욕망","영광","창조","성생활"],"inner":"자존심·고집"},
+  {"id":6,"title":"봉사자","keywords":["현실 수용","합리성","균형"],"inner":"행동력 부족"},
+  {"id":7,"title":"파트너","keywords":["관계","균형","거울"],"inner":"조화·상호성"},
+  {"id":8,"title":"유혹자","keywords":["집착","열광","지하세계"],"inner":"강한 욕망"},
+  {"id":9,"title":"설교자","keywords":["신념","통찰","성직자"],"inner":"내 생각이 옳다고 느낌"},
+  {"id":10,"title":"장인","keywords":["책임","운명","노인","관리자"],"inner":"융통성 부족"},
+  {"id":11,"title":"광대","keywords":["자유","아웃사이더"],"inner":"자유 추구"},
+  {"id":12,"title":"천사","keywords":["진실","직감","환상"],"inner":"단념·포기"},
+
+  {"id":13,"title":"반항","keywords":["분노","도망","어머니에 대한 미움"],"inner":"섭섭함/화남"},
+  {"id":14,"title":"이브의 두 얼굴","keywords":["역할갈등","복잡한 감정"],"inner":"선택장애"},
+  {"id":15,"title":"의사표현","keywords":["감정토론","접촉"],"inner":"감정을 말 못함"},
+  {"id":16,"title":"양립불가","keywords":["낙원 추방","대립"],"inner":"관점 차이"},
+  {"id":17,"title":"보살핌","keywords":["동정","문제아이","보살핌 증후군"],"inner":"과잉보호"},
+  {"id":18,"title":"가족","keywords":["우리","결합"],"inner":"책임감"},
+  {"id":19,"title":"낙태","keywords":["희생된 여성성","우울"],"inner":"내려놓음"},
+  {"id":20,"title":"므네모시네","keywords":["기억","영혼 통찰"],"inner":"과거 회피"},
+
+  {"id":21,"title":"얼음여왕","keywords":["냉정","죄책감","우울"],"inner":"벽치고 외로움"},
+
+  {"id":22,"title":"해방","keywords":["비정한 자유","추방","새 시작"],"inner":"변화를 원하는 마음"},
+  {"id":23,"title":"잠자는 미녀","keywords":["기다림","무의식"],"inner":"행동하지 않음"},
+  {"id":24,"title":"전투","keywords":["힘겨루기","섀도우 복싱"],"inner":"기싸움"},
+  {"id":25,"title":"여왕","keywords":["감성적 매력"],"inner":"자존심·매력 사용"},
+  {"id":26,"title":"배우","keywords":["역할","거짓 정체성"],"inner":"연기/가면"},
+  {"id":27,"title":"병든 왕","keywords":["우울","도피","의욕저하"],"inner":"지침·무기력"},
+  {"id":28,"title":"결혼","keywords":["사랑","커플","희열"],"inner":"관계 중심"},
+  {"id":29,"title":"마법사","keywords":["창조","집중","완벽주의"],"inner":"과몰입"},
+  {"id":30,"title":"행운","keywords":["긍정","신뢰"],"inner":"긍정적인 생각"},
+  {"id":31,"title":"짐","keywords":["책임","윤리","부담"],"inner":"무거움"},
+  {"id":32,"title":"몰락","keywords":["추락","힘 상실"],"inner":"자존심 상함"},
+
+  {"id":33,"title":"후퇴","keywords":["존재 위기","도피"],"inner":"회피"},
+  {"id":34,"title":"사랑","keywords":["성적 매력","육체적 접촉"],"inner":"애정·육체성"},
+  {"id":35,"title":"형틀","keywords":["가십","명예훼손"],"inner":"험담, 비난"},
+  {"id":36,"title":"죄책감","keywords":["가해자-피해자","결백"],"inner":"죄책감"},
+  {"id":37,"title":"불일치","keywords":["싸움","충돌"],"inner":"충돌·선 긋기"},
   {"id":38,"title":"욕망의 젖소","keywords":["유혹","자극"],"inner":"가벼움/섹슈얼"},
-  {"id":39,"title":"여대생","keywords":["교양","전체론적 논의"],"inner":"이해심/기다림"},
-  {"id":40,"title":"어머니와 아들","keywords":["어머니의 사랑","모자 관계"],"inner":"무게감 있는 유대"},
-  {"id":41,"title":"연민의 천사","keywords":["미숙죄","죄의식","불편"],"inner":"동정·연민"},
-  {"id":42,"title":"대중의 여론","keywords":["호텔 라운지","소문"],"inner":"아웃사이더·외로움"},
-  {"id":43,"title":"황금 소녀","keywords":["많은 여자","아름다움/못생김"],"inner":"경쟁의식·비교심"},
-  {"id":44,"title":"집착","keywords":["안전에 대한 보장"],"inner":"물질적 집착"},
-  {"id":45,"title":"황금새장","keywords":["구속하는 관계","소유의 파트너","파트너 매수","질투","헌신"],"inner":"소유·구속·질투"},
-  {"id":46,"title":"꼭두각시","keywords":["원격제어 감각","완벽한 외모","물질에 소유됨","식이장애"],"inner":"수동/타인 맞춤"},
-  {"id":47,"title":"물질과 영혼","keywords":["종파"],"inner":"기브앤테이크(정산적)"},
-  {"id":48,"title":"창조에 대한 책임","keywords":["돌봄과 관심","사용권(Usufruct)","약자 보살핌"],"inner":"선의의 챙김/오지랖"},
-  {"id":49,"title":"작별","keywords":["아웃사이더","공간이동","우정 붕괴","친구 배신"],"inner":"쿨한 이별"},
-  {"id":50,"title":"영혼의 정원","keywords":["물질세계 무관심","보이는 것 풍자"],"inner":"헛된 희망"},
-  {"id":51,"title":"전략가","keywords":["외교관","인과관계"],"inner":"계산·전략적 사고"},
-  {"id":52,"title":"허영의 시장","keywords":["다른 사람과 함께 있음","함께임 연출"],"inner":"보여주기/부러움"},
-  {"id":53,"title":"피리부는 사나이","keywords":["광고/유혹"],"inner":"화술로 설득/속임"},
-  {"id":54,"title":"스승과 제자","keywords":["사기꾼","영적 헌신 없음"],"inner":"불공평한 관계"},
-  {"id":55,"title":"고통","keywords":["반영","생각의 명확화"],"inner":"커뮤니케이션 문제"},
-  {"id":56,"title":"꿈꾸는 남자","keywords":["무모함","자유로운 사고","작은 원인 큰 결과"],"inner":"경솔/대책없음"},
-  {"id":57,"title":"침묵","keywords":["비밀 지키기","쓸모없음","무관심"],"inner":"말하지 않음/강요된 침묵"},
-  {"id":58,"title":"일상적 관계","keywords":["침식","동기 부족"],"inner":"권태/매너리즘"},
-  {"id":59,"title":"자책","keywords":["강박","악령쫓기","이상추구"],"inner":"자책/후회"},
-  {"id":60,"title":"종교재판","keywords":["옳다고 믿는 것의 안전감","죄인 찾기"],"inner":"비난(함/받음)"},
-  {"id":61,"title":"공포·두려움","keywords":["운명의 지배","죽음이라는 친구","바꿀 수 없음"],"inner":"예상 못한 공포/도피"},
-  {"id":62,"title":"복수의 여신","keywords":["삶·죽음/어둠에 대한 두려움","운명의 지배","불변"],"inner":"상대의 강한 분노"},
-  {"id":63,"title":"속임수","keywords":["자기기만","부정행위","반칙","사기","교묘한 술책","혼돈 속 질서"],"inner":"속임/거짓"},
-  {"id":64,"title":"재앙","keywords":["사슬","지옥 같은 관계","마술적 접촉","블랙 웨딩","노예화","포르노"],"inner":"중독·집착"},
-  {"id":65,"title":"심볼론","keywords":["관계의 의미","사랑의 행운","결혼 서약"],"inner":"동반자·파트너십"},
-  {"id":66,"title":"슬픔","keywords":["버려짐","관계 속 외로움","슬픔/애도","분리의 운명","미망인"],"inner":"상대방으로 인한 슬픔"},
-  {"id":67,"title":"이별","keywords":["해방","이혼","관계 탈출","떠남","얽매이지 않음","관계 맺기 불가"],"inner":"해방"},
-  {"id":68,"title":"왕의 두 자녀","keywords":["로맨틱한 관계","꿈의 파트너(두 영혼)","하나됨의 환상","사랑의 꿈"],"inner":"그리움/애틋"},
-  {"id":69,"title":"검은 무리","keywords":["우상 숭배","소수 종교 도그마","숭고한 광신","절대 확신"],"inner":"광신/집착"},
-  {"id":70,"title":"우울","keywords":["덫","망연자실","잊기 위한 의자","영혼의 어두운 면"],"inner":"우울·깊은 고민"},
-  {"id":71,"title":"불사조","keywords":["변종","영적 해방","죽음과 부활","방향 감각 상실","붕괴"],"inner":"관습 타파·새 시작"},
-  {"id":72,"title":"거짓된 후광","keywords":["선/악","천국 개념","위선","추락한 천사","공정"],"inner":"위선/가면"},
-  {"id":73,"title":"고해","keywords":["고백","정화","치료사의 책임","운명 통찰","주관·객관의 다리"],"inner":"미안함/사과"},
-  {"id":74,"title":"양자 도약","keywords":["패러다임 변화","미지로 도약","지붕 위의 바보","도그마에서 해방"],"inner":"새로운 시작/과감한 변화"},
-  {"id":75,"title":"피티아","keywords":["직관","신탁 여사제","점술가","점성학"],"inner":"지켜봄/조언"},
-  {"id":76,"title":"감금","keywords":["정지 상태","목적 달성 불가","가부장적 구조","억압","희생자"],"inner":"답답함/갇힘"},
-  {"id":77,"title":"승리","keywords":["승리자","영웅","기사","투사","정의/자유"],"inner":"정의감·당당함"},
-  {"id":78,"title":"통합","keywords":["전체성","분열된 자아의 통합","완전함","하나됨"],"inner":"통합·조화"}
+  {"id":39,"title":"여대생","keywords":["교양","논의"],"inner":"이해심/기다림"},
+  {"id":40,"title":"어머니와 아들","keywords":["모자 관계"],"inner":"무게감 있는 유대"},
+  {"id":41,"title":"연민의 천사","keywords":["죄의식","불편"],"inner":"연민"},
+  {"id":42,"title":"대중의 여론","keywords":["소문","라운지"],"inner":"외로움/아웃사이더"},
+  {"id":43,"title":"황금 소녀","keywords":["많은 여자","비교"],"inner":"경쟁의식"},
+  {"id":44,"title":"집착","keywords":["안전","물질"],"inner":"물질적 집착"},
+  {"id":45,"title":"황금새장","keywords":["구속","소유","질투"],"inner":"구속/소유욕"},
+  {"id":46,"title":"꼭두각시","keywords":["원격 조종","외모","소유됨"],"inner":"수동적"},
+  {"id":47,"title":"물질과 영혼","keywords":["기브앤테이크"],"inner":"계산적 관계"},
+  {"id":48,"title":"창조에 대한 책임","keywords":["돌봄","관심","약자"],"inner":"오지랖/보살핌"},
+  {"id":49,"title":"작별","keywords":["붕괴","배신"],"inner":"쿨한 이별"},
+  {"id":50,"title":"영혼의 정원","keywords":["물질 무관심","풍자"],"inner":"헛된 희망"},
+  {"id":51,"title":"전략가","keywords":["외교","계산","인과"],"inner":"전략·계산"},
+  {"id":52,"title":"허영의 시장","keywords":["부러움","보여주기"],"inner":"허영심"},
+  {"id":53,"title":"피리부는 사나이","keywords":["유혹","말재주"],"inner":"말로 속임/홀림"},
+  {"id":54,"title":"스승과 제자","keywords":["불공평","겉과 속"],"inner":"위계/부조화"},
+  {"id":55,"title":"고통","keywords":["반영","명확화"],"inner":"소통 문제"},
+  {"id":56,"title":"꿈꾸는 남자","keywords":["무모함","자유 사고"],"inner":"경솔/대책없음"},
+  {"id":57,"title":"침묵","keywords":["비밀","무관심"],"inner":"말하지 않음"},
+  {"id":58,"title":"일상적 관계","keywords":["권태","침식"],"inner":"무기력/관계 지침"},
+  {"id":59,"title":"자책","keywords":["강박","이상추구"],"inner":"후회/자책"},
+  {"id":60,"title":"종교재판","keywords":["비난","죄인 찾기"],"inner":"누가 옳은가 싸움"},
+  {"id":61,"title":"공포·두려움","keywords":["운명 지배","바꿀 수 없음"],"inner":"놀람·도피"},
+
+  {"id":62,"title":"복수의 여신","keywords":["어둠","운명","두려움"],"inner":"강한 분노"},
+  {"id":63,"title":"속임수","keywords":["거짓","사기","반칙"],"inner":"속임/기만"},
+  {"id":64,"title":"재앙","keywords":["지옥","노예화","중독"],"inner":"집착·중독"},
+  {"id":65,"title":"심볼론","keywords":["관계 의미","서약"],"inner":"파트너십"},
+  {"id":66,"title":"슬픔","keywords":["버려짐","애도","외로움"],"inner":"상대로 인한 상처"},
+  {"id":67,"title":"이별","keywords":["해방","탈출","단절"],"inner":"해방"},
+  {"id":68,"title":"왕의 두 자녀","keywords":["로맨스","꿈","환상"],"inner":"그리움/애틋"},
+  {"id":69,"title":"검은 무리","keywords":["도그마","광신","확신"],"inner":"광적인 믿음"},
+  {"id":70,"title":"우울","keywords":["덫","망연자실","어두운 면"],"inner":"우울/혼자 고민"},
+  {"id":71,"title":"불사조","keywords":["죽음/부활","붕괴","해방"],"inner":"낡은 것 파괴 후 새출발"},
+  {"id":72,"title":"거짓된 후광","keywords":["위선","가면","공정"],"inner":"겉과 속 다름"},
+  {"id":73,"title":"고해","keywords":["고백","정화","통찰"],"inner":"미안함/사과"},
+  {"id":74,"title":"양자 도약","keywords":["변화","도약","미지"],"inner":"새로운 시작"},
+  {"id":75,"title":"피티아","keywords":["직관","점성","신탁"],"inner":"지켜봄·조언"},
+  {"id":76,"title":"감금","keywords":["정체","억압"],"inner":"답답함/멈춤"},
+  {"id":77,"title":"승리","keywords":["영웅","정의","자유"],"inner":"당당함"},
+  {"id":78,"title":"통합","keywords":["완전함","하나됨"],"inner":"조화·통합"}
 ];
 
-/* 유틸 */
+/* 카드 뽑기 */
 function pick(n){
   const pool=[...CARDS], out=[];
   while(out.length<n && pool.length){
@@ -174,15 +203,15 @@ function pick(n){
   return out;
 }
 
-/* 렌더링 */
-const board = document.getElementById('board');
+/* 카드 렌더링 */
+const board=document.getElementById('board');
 function render(cards){
   board.innerHTML='';
   cards.forEach(card=>{
     const el=document.createElement('div');
     el.className='card';
     el.innerHTML=`
-      <img src="/img/symbolon/${card.id}.jpg" alt="${card.title}" onerror="this.style.background='#111827'">
+      <img src="./${FILES[card.id]}" alt="${card.title}">
       <div class="meta">
         <div class="title">${card.title}</div>
         <div class="subtitle">#${card.id}</div>
@@ -192,7 +221,7 @@ function render(cards){
   });
 }
 
-/* 모달 */
+/* 팝업 */
 const modal=document.getElementById('modal');
 const overlay=document.getElementById('overlay');
 const closeBtn=document.getElementById('close');
@@ -202,21 +231,22 @@ const mKeywords=document.getElementById('mKeywords');
 const mInner=document.getElementById('mInner');
 
 function openModal(card){
-  mImg.src=`/img/symbolon/${card.id}.jpg`;
-  mTitle.textContent = `${card.title} (#${card.id})`;
-  mKeywords.innerHTML = (card.keywords||[]).map(k=>`<span class="pill">${k}</span>`).join('');
-  mInner.textContent = card.inner || '';
+  mImg.src=`./${FILES[card.id]}`;
+  mTitle.textContent=`${card.title} (#${card.id})`;
+  mKeywords.innerHTML=card.keywords.map(k=>`<span class="pill">${k}</span>`).join('');
+  mInner.textContent=card.inner;
   modal.classList.add('open');
 }
-function closeModal(){ modal.classList.remove('open'); }
+function closeModal(){modal.classList.remove('open');}
+
 overlay.addEventListener('click',closeModal);
 closeBtn.addEventListener('click',closeModal);
-window.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+window.addEventListener('keydown',e=>{if(e.key==="Escape")closeModal();});
 
 /* 버튼 */
 document.getElementById('draw1').onclick=()=>render(pick(1));
 document.getElementById('draw3').onclick=()=>render(pick(3));
-document.getElementById('reset').onclick=()=>{ board.innerHTML=''; };
+document.getElementById('reset').onclick=()=>{board.innerHTML='';};
 
 /* 초기 */
 render([]);
