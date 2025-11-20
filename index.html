@@ -155,7 +155,7 @@ const FILES = {
   77:"77.Moria.JPG", 78:"78.The Question of the Grail.JPG"
 };
 
-/* ✅ 카드 데이터 (키워드 + 속마음 요약본) */
+/* ✅ 카드 데이터 (키워드 + 속마음 요약본) — 문법 오류 수정 버전 */
 const CARDS = [
   {"id":1,"title":"전사","keywords":["공격성","성취","정복","선동자","출발"],"inner":"적극성/공격성"},
   {"id":2,"title":"연인","keywords":["가치","매력","소유욕","사교성","매력"],"inner":"사랑받고 싶은 마음"},
@@ -195,7 +195,7 @@ const CARDS = [
   {"id":36,"title":"죄책감","keywords":["가해자-피해자","결백"],"inner":"죄책감"},
   {"id":37,"title":"불일치","keywords":["싸움","충돌"],"inner":"충돌·선 긋기"},
   {"id":38,"title":"뱀파이어","keywords":["희생자","결박"],"inner":"중독/집착의 상태"},
-  {"id":39,"title":"십자군","keywords":["행동력",""설득의 힘],"inner":"적극성·공격성"},
+  {"id":39,"title":"십자군","keywords":["행동력","설득의 힘"],"inner":"적극성·공격성"},
   {"id":40,"title":"예방","keywords":["장애물","굴레"],"inner":"이러지도 저러지도 못함"},
   {"id":41,"title":"악의적인 말썽쟁이","keywords":["트러블메이커","사기꾼"],"inner":"엉뚱한/자기가 놀람"},
   {"id":42,"title":"완벽한 바보","keywords":["패배자","무기력"],"inner":"지침"},
@@ -234,7 +234,7 @@ const CARDS = [
   {"id":75,"title":"피티아","keywords":["직관","점성","신탁"],"inner":"지켜봄·조언"},
   {"id":76,"title":"감금","keywords":["정체","억압"],"inner":"답답함/멈춤"},
   {"id":77,"title":"모이라","keywords":["지혜","무력감","수용"],"inner":"끊지못함"},
-  {"id":78,"title":"성배의 질문","keywords":["근원의 문제","무의식","탐구"],"inner":내면의 깨달음/기회"}
+  {"id":78,"title":"성배의 질문","keywords":["근원의 문제","무의식","탐구"],"inner":"내면의 깨달음/기회"}
 ];
 
 /* 카드 뽑기 */
@@ -293,7 +293,7 @@ document.getElementById('draw1').onclick=()=>render(pick(1));
 document.getElementById('draw3').onclick=()=>render(pick(3));
 document.getElementById('reset').onclick=()=>{ board.innerHTML=''; };
 
-/* 초기 */
+/* 초기: 아무 카드도 안 보이게 */
 render([]);
 </script>
 </body>
