@@ -22,6 +22,7 @@
   .btn{appearance:none; border:1px solid var(--text); background:var(--btn); color:#fff; padding:10px 14px; border-radius:10px; font-weight:700; cursor:pointer; transition:.15s}
   .btn:hover{filter:brightness(0.95)}
   .btn.ghost{background:var(--btn-ghost); color:var(--text); border:1px solid var(--line)}
+  .btn.sm{padding:6px 10px; font-size:12px; font-weight:600;}
 
   /* --------------------------------------------------
      목록 레이아웃
@@ -76,6 +77,67 @@
     .card{width:auto; flex:none;}
   }
 
+  /* ▼ 카드 전체 목록 & 해설 패널 */
+  .list-panel{
+    margin-top:24px;
+    padding:16px;
+    border-radius:16px;
+    border:1px solid var(--line);
+    background:var(--panel);
+    box-shadow:var(--shadow);
+  }
+  .list-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:12px;
+  }
+  .list-header h2{
+    margin:0;
+    font-size:16px;
+  }
+  .card-list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    max-height:360px;
+    overflow-y:auto;
+    padding-right:4px;
+  }
+  .card-row{
+    width:100%;
+    border-radius:12px;
+    border:1px solid var(--line);
+    background:#fff;
+    padding:10px 12px;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    text-align:left;
+  }
+  .card-row:hover{
+    background:#f9fafb;
+  }
+  .card-row-title{
+    font-size:13px;
+    font-weight:700;
+  }
+  .card-row-keywords{
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px;
+  }
+  .card-row-inner{
+    font-size:12px;
+    color:#374151;
+  }
+
+  .list-panel.collapsed .card-list{
+    display:none;
+  }
+
   .footer{text-align:center; color:var(--muted); font-size:13px; margin:26px 0 36px}
 
   /* 팝업(라이트 톤) */
@@ -109,6 +171,16 @@
   </section>
 
   <section class="board" id="board"></section>
+
+  <!-- ▼ 카드 전체 목록 & 해설 -->
+  <section class="list-panel" id="listPanel">
+    <div class="list-header">
+      <h2>카드 목록 & 해설</h2>
+      <button class="btn ghost sm" id="toggleList">목록 접기</button>
+    </div>
+    <div class="card-list" id="cardList"></div>
+  </section>
+
   <div class="footer">제작 : <strong>월홍🌙</strong></div>
 </main>
 
@@ -267,6 +339,34 @@ function render(cards){
   });
 }
 
+/* ▼ 전체 카드 목록 렌더링 */
+const cardList = document.getElementById('cardList');
+const listPanel = document.getElementById('listPanel');
+const toggleListBtn = document.getElementById('toggleList');
+
+function renderCardList(){
+  cardList.innerHTML = '';
+  CARDS.forEach(card=>{
+    const row = document.createElement('button');
+    row.type = 'button';
+    row.className = 'card-row';
+    row.innerHTML = `
+      <div class="card-row-title">#${card.id} ${card.title}</div>
+      <div class="card-row-keywords">
+        ${(card.keywords || []).map(k=>`<span class="pill">${k}</span>`).join('')}
+      </div>
+      <div class="card-row-inner">${card.inner || ''}</div>
+    `;
+    row.addEventListener('click',()=>openModal(card));
+    cardList.appendChild(row);
+  });
+}
+
+toggleListBtn.addEventListener('click',()=>{
+  const collapsed = listPanel.classList.toggle('collapsed');
+  toggleListBtn.textContent = collapsed ? '목록 펼치기' : '목록 접기';
+});
+
 /* 팝업 */
 const modal=document.getElementById('modal');
 const overlay=document.getElementById('overlay');
@@ -293,8 +393,9 @@ document.getElementById('draw1').onclick=()=>render(pick(1));
 document.getElementById('draw3').onclick=()=>render(pick(3));
 document.getElementById('reset').onclick=()=>{ board.innerHTML=''; };
 
-/* 초기: 아무 카드도 안 보이게 */
+/* 초기: 아무 카드도 안 보이게 + 목록 렌더링 */
 render([]);
+renderCardList();
 </script>
 </body>
 </html>
